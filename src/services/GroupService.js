@@ -9,17 +9,20 @@ const txtUtil = new TextUtils();
 
 async function generateGroups() {
   try {
+    //loading the given data
     const groups = await groupLoader.loadGoups();
 
     let gorupNames = Object.keys(groups);
 
     let allGroups = [];
     let allTeams = {};
+
     gorupNames.forEach((groupName) => {
       let group = new Group(groupName);
       let teams = groups[groupName];
 
       teams.forEach((team) => {
+        //initializing the teams within a group
         let teamGroup = new TeamGroup(
           team.Team,
           team.ISOCode,
@@ -32,6 +35,7 @@ async function generateGroups() {
       allGroups.push(group);
     });
 
+    //loading games from the exibitions file
     await loadPastGames(allTeams);
 
     return { teams: allTeams, groups: allGroups };
@@ -43,6 +47,7 @@ async function generateGroups() {
 async function loadPastGames(allTeams) {
   const exibitionGames = await groupLoader.loadExibitionGames();
 
+  //setting the exibition games to the team object as a list of games
   Object.keys(exibitionGames).forEach((isoCode) => {
     let teamA = allTeams[isoCode];
     let games = exibitionGames[isoCode];
@@ -64,12 +69,13 @@ async function simulateGroupStage() {
       let m = i + 2;
       txtUtil.printGroupHeading(k);
       for (let group of groups) {
+        //getting the current round from the constant representing the games schedule inside the group
         let currentRonud = GROUP_ROUNDS[i + 1];
 
         let teamList = group.getTeams();
 
-        //return these values to the group and display the text after every round
-        [game1, game2] = await Promise.all([
+        //getting game objects of a single round of play after simulating the outcome
+        const [game1, game2] = await Promise.all([
           winProbability(
             teamList[currentRonud[0][0]],
             teamList[currentRonud[0][1]]
@@ -104,6 +110,8 @@ async function checkForTies(group) {
     let teamA = teamList[tie[0]];
     let teamB = teamList[tie[1]];
     let teamC = teamList[tie[2]];
+    //checking for three way ties, automatically handling two way ties by filling the list of tied teams
+
     if ((teamA.getPoints() === teamB.getPoints()) === teamC.getPoints()) {
       tiedTeams.push(teamA, teamB, teamC);
       threeWayTies = true;
@@ -132,7 +140,7 @@ function threeWayTie(group, tiedTeams) {
     { team: tiedTeams[2], ptDif: 0 },
   ];
 
-  //game1
+  //calculating the point difference in head to head matches for each team in the tie
   let gameDifference = game1.getPointDifference();
   if (game1.getHomeTeam() === tiedTeams[0]) {
     tieBreakingTable[0].ptDif += gameDifference;
@@ -141,8 +149,6 @@ function threeWayTie(group, tiedTeams) {
     tieBreakingTable[1].ptDif += gameDifference;
     tieBreakingTable[0].ptDif -= gameDifference;
   }
-  //game2
-
   let gameDifference2 = game2.getPointDifference();
   if (game2.getHomeTeam() === tiedTeams[0]) {
     tieBreakingTable[0].ptDif += gameDifference2;
@@ -184,6 +190,7 @@ function threeWayTie(group, tiedTeams) {
   }
 }
 
+//handling two way ties by checking the head to head match between the tied teams
 function twoWayTie(group, tiedTeams) {
   let game = group.checkHeadToHead(tiedTeams[0], tiedTeams[1]);
   if (

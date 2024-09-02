@@ -21,6 +21,8 @@ async function prepRanking(groups) {
     groups[2].getTeamList()[2]
   );
 
+  //ranking the teams based on the given criteria
+
   await Promise.all([
     rangTeams(FirstTeams, [1, 2, 3]),
     rangTeams(SecondTeams, [4, 5, 6]),
@@ -58,12 +60,16 @@ function rangTeams(teams, rankings) {
   teams.forEach((team, index) => {
     team.setGroupRank(rankings[index]);
   });
+
+  return Promise.resolve();
 }
 
 async function prepareKnockout(groups) {
   try {
     let teams = await prepRanking(groups);
+    //sorting ranked teams 1-9 into 4 hats D - G
     let [hatD, hatE, hatF, hatG] = await sortByHats(teams);
+
     const [pairs1, pairs2] = await formBrackets(hatD, hatE, hatF, hatG, groups);
     return [
       [pairs1, pairs2],
@@ -98,6 +104,7 @@ async function sortByHats(teams) {
 
 async function formBrackets(hatD, hatE, hatF, hatG, groups) {
   try {
+    //forming the pairs for the elimination phase, by randomly picking a combination, and pairing hat D with hat G and hat E with hat F
     const [pairs1, pairs2] = await Promise.all([
       formRandomPairs(hatD, hatG, groups),
       formRandomPairs(hatE, hatF, groups),
@@ -128,6 +135,7 @@ function formRandomPairs(hat1, hat2, groups) {
     } else {
       team4 = hat2[0];
     }
+    //giving notice that the teams from the same group can not play against each other in this phase of the tournament
     if (
       team1.getGroupSign() != team2.getGroupSign() &&
       team3.getGroupSign() != team4.getGroupSign()

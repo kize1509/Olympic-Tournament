@@ -5,7 +5,7 @@ const txtUtil = new TextUtils();
 async function simulateKnockout(pairs, hats) {
   const pairsDG = pairs[0];
   const pairsEF = pairs[1];
-
+  //geting results for the quarter finals
   const [firstDG, secondDG, firstEF, secondEF] = await Promise.all([
     winProbability(pairsDG[0][0], pairsDG[0][1]),
     winProbability(pairsDG[1][0], pairsDG[1][1]),
@@ -26,7 +26,7 @@ async function simulateKnockout(pairs, hats) {
     winnerFirstEF,
     winnerSecondEF
   );
-
+  //geting results for the semi finals
   const [firstSemiFinal, secondSemiFinal] = await Promise.all([
     winProbability(semiFinals[0][0], semiFinals[0][1]),
     winProbability(semiFinals[1][0], semiFinals[1][1]),
@@ -38,6 +38,7 @@ async function simulateKnockout(pairs, hats) {
   const loserFirstSemiFinal = firstSemiFinal.getLoser();
   const loserSecondSemiFinal = secondSemiFinal.getLoser();
 
+  //geting results for the third place and finals
   const [thirdPlace, final] = await Promise.all([
     winProbability(loserFirstSemiFinal, loserSecondSemiFinal),
     winProbability(winnerFirstSemiFinal, winnerSecondSemiFinal),

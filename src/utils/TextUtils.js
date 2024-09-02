@@ -134,6 +134,12 @@ class TextUtils {
     console.log(YELLOW + `\t${winner.getName()} `);
     console.log("\t====================================" + RESET);
   }
+
+  printGroups(groups) {
+    groups.forEach((group) => {
+      console.log(group.toString());
+    });
+  }
 }
 
 module.exports = {
