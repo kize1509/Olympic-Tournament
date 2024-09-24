@@ -10,7 +10,7 @@ function generateRandomFactor() {
   return 0.95 + Math.random() * 0.1;
 }
 
-async function winProbability(teamA, teamB) {
+function winProbability(teamA, teamB) {
   // considering the base probability of 50% for each team and using the difference in ranking for completing the base probability
   // using the form stat as an additional factor to calculate the final probability
   // after the calcualtion normalizing the score to 0-1 range and multiplying by a constant to get the final points scored by the team
@@ -19,10 +19,8 @@ async function winProbability(teamA, teamB) {
   let probability = BASE_PROBABILITY + rankingDiff / 100;
 
   try {
-    const [formA, formB] = await Promise.all([
-      formCalculator(teamA),
-      formCalculator(teamB),
-    ]);
+    const formA = formCalculator(teamA);
+    const formB = formCalculator(teamB);
 
     teamA.setForm(formA);
     teamB.setForm(formB);
@@ -63,13 +61,13 @@ async function winProbability(teamA, teamB) {
     teamA.addGame(gameHome);
     teamB.addGame(gameAway);
 
-    return Promise.resolve(gameHome);
+    return gameHome;
   } catch (e) {
     console.log(e);
   }
 }
 
-async function formCalculator(team) {
+function formCalculator(team) {
   let formSum = 0;
   let gameWeight = 1;
 
@@ -83,7 +81,7 @@ async function formCalculator(team) {
     gameWeight -= 0.08;
   }
 
-  return Promise.resolve(formSum * 0.02);
+  return formSum * 0.02;
 }
 
 module.exports = {
