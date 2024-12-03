@@ -1,11 +1,106 @@
-Zadatak pokrenuti sa 'npm start'.
-Tehnologija: Node.js
-Verzija: v20.17.0
+# Olympic Basketball Tournament Simulator 🏀
 
-Napomene: 
-- Računanje verovatnoće podešeno po ličnom izboru, moguća prepravka u cilju dobijanja lepših rezultata. Sem pomenutog FIBA ranga za verovatnoću korišćena kalkulacija FORME kao i faktor iznenadjenja 1<x<2.
-- U sekvenci teksta
-      "Timovi iz šešira D se nasumično ukrštaju sa timovima iz šešira G, a timovi iz šešira E sa timovima iz šešira F i tako se formiraju parovi četvrtfinala.
-    Veoma važna propozicija je da se timovi koji su igrali međusobno u grupnoj fazi, ne mogu sresti u četvrtfinalu. U istom trenutku se formiraju i parovi polufinala, nasumičnim ukrštanjem novonastalih parova četvrtfinala,
-    uz pravilo da se parovi nastali ukrštanjem šešira D i E ukrštaju sa parovima nastalim ukrštanjem šešira F i G."
-  - Naišao sam na nejasnoću gde se u četvrtini finala pominje D i G ukrštanje a u polufinalu D i E, u zadatku sam uradio četvrtfinalno ukrštanje D-G i E-F, i pobednike D-G i E-F nasumično upario izmedju sebe, gde se ne može desiti da dva pobednika D-G u polufinalu igraju medjusobno (analogno i za E-F).
+A Node.js-based simulation of an Olympic basketball tournament. The project predicts and simulates tournament outcomes using historical data and probability-based methods, enabling realistic outcomes for matches and final rankings.
+
+---
+
+## 🌟 Features
+
+### **Simulation Core**
+- **Team Data Input**: Includes team statistics, previous match results, and scores.
+- **Probability-Based Predictions**: Outcomes are simulated using:
+  - Historical win/loss records.
+  - Point differentials.
+  - Head-to-head results.
+- **Dynamic Tournament Structure**: Simulates group and knockout stages dynamically.
+
+### **Tournament Workflow**
+1. **Group Stage Simulation**: Simulates round-robin matches and generates standings.
+2. **Knockout Stage Simulation**: Runs quarterfinals, semifinals, and finals, determining a winner.
+3. **Result Reporting**: Outputs detailed match results and team rankings.
+
+### **Statistical Insights**
+- **Probability Analysis**: Provides probabilities for team advancement and wins.
+- **Historical Comparison**: Compares simulation outcomes to actual historical results.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- **Node.js** (v14 or later)
+- **npm** or **yarn**
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/olympic-basketball-simulator.git
+
+    Navigate to the project directory:
+
+cd olympic-basketball-simulator
+
+Install dependencies:
+
+    npm install
+    # or
+    yarn install
+
+🔧 Usage
+
+    Prepare Input Data:
+        Place exibitions and group data in the data/ folder:
+            exibitions.json
+            groups.json
+
+    Configure Settings:
+        Modify tournament settings in the config/ folder.
+
+    Run the Simulation:
+
+    npm start
+
+    View Results:
+        Match outcomes and rankings are displayed in the console or saved to the output/ folder.
+
+📂 Project Structure
+
+root/
+├── config/             
+├── data/               
+├── src/              
+│   ├── models/        
+│   ├── services/       
+│   ├── utils/          
+│   |── app.js        
+|   └── tournament.js      
+🧠 How It Works
+
+    Data Preparation:
+        Teams and match data are loaded from the data/ folder.
+        Team strength is calculated based on historical data (e.g., win rates, point differentials).
+
+    Simulation Logic:
+        Each match is simulated probabilistically, considering:
+            Team strength.
+            Previous encounters.
+            Random variations.
+
+    Tournament Stages:
+        Group Stage: Round-robin simulation where all teams compete in groups.
+        Knockout Stage: Winners progress through elimination rounds until the final.
+
+    Results Output:
+        Standings, match scores, and probability distributions are generated.
+
+🛠️ Technologies Used
+
+    Node.js: JavaScript runtime for server-side logic.
+    Libraries:
+        fs (File System): For reading and writing data files.
+        mathjs or custom utility: For probability calculations.
+        commander: For handling CLI inputs (if applicable).
+
+📜 License
+
+This project is licensed under the MIT License.
