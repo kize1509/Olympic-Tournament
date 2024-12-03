@@ -65,7 +65,6 @@ Install dependencies:
 
 📂 Project Structure
 
-root/
 ├── config/             
 ├── data/               
 ├── src/              
